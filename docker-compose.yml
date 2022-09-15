@@ -1,0 +1,31 @@
+version: '3'
+services:
+  message-management-service:
+    container_name: TwitterLike_MMS
+    build:
+      context: /home/kngat/IdeaProjects/TwitterLike_MMS
+      dockerfile: Dockerfile
+    environment:
+      - SERVER_PORT=8081
+      - MONGODB_URI=mongodb://mongodb:27017/twitterlike_db
+      - MONGODB_STATUS_HOST=mongodb
+      - MONGODB_STATUS_PORT=28017
+    image: message-management-service:latest
+    ports:
+      - 8090:8080
+
+  user-management-service:
+    container_name: TwitterLike_UMS
+    build:
+      context: ../TwitterLike_UMS
+      dockerfile: Dockerfile
+    image: user-management-service:latest
+    ports:
+      - 8091:8081
+  mongodb:
+    image: mongo
+    hostname: mongodb
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    restart: unless-stopped
